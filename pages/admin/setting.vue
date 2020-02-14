@@ -85,9 +85,9 @@ export default {
         password: this.plama,
         newpassword: this.pbaru
       };
-      var ress = await axios.put(
-        "/admin/password/"+this.user.username,
-        { data },
+      var ress = await axios.post(
+        "/setting",
+         data ,
         {
           headers: {
             Authorization: `bearer ${this.token}`

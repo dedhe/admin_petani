@@ -1,16 +1,20 @@
 <template>
   <v-app>
     <v-navigation-drawer v-model="drawer" absolute overflow app dark class="anjay">
-      <v-list class="pa-3" style="height:100% ; background:#394857;">
+      <v-list class="pa-3" style="height:100% ; background: url(/b.png) rgb(24, 39, 36);
+    background-size: 100% 50%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+">
         <v-list-tile avatar>
           <v-list-tile-avatar>
             <v-avatar :tile="false" :size="40" color="teal" class="elevation-3">
-              <img src="/logo.svg" alt="avatar">
+              <img src="/logo.png" alt="avatar">
             </v-avatar>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title class="nvbf">Admin Ambassador</v-list-tile-title>
+            <v-list-tile-title class="nvbf">Admin</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider class="white mt-2 mb-2"></v-divider>
@@ -67,7 +71,7 @@
 
     <v-content class="white muncul">
       <v-toolbar class="white" flat light>
-        <v-toolbar-side-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
+        <v-toolbar-side-icon class="" @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
 
        
         
@@ -89,9 +93,9 @@ export default {
   data: () => ({
     items: [
       { title: "Dashboard", icon: "dashboard", path: "/admin" },
+      { title: "Cluster", icon: "sort", path: "/admin/cluster" },
+      { title: "Branch", icon: "timeline", path: "/admin/branch" },
       { title: "Member", icon: "account_box", path: "/admin/member" },
-      { title: "Portofolio", icon: "description", path: "/admin/portofolio" },
-      // { title: "Kategori", icon: "toc", path: "/admin/kategori" },
       // { title: "Layanan", icon: "call", path: "/admin/layanan" },
       // { title: "Youtube", icon: "subscriptions", path: "/admin/youtube" },
       // { title: "Laporan", icon: "feedback", path: "/admin/laporan" },
@@ -153,7 +157,7 @@ export default {
   /* This section calls the slideInFromLeft animation we defined above */
   animation: 1s ease-out 0s 1 slideInFromLeft;
 
-  background: #333;
+  /* background: #333; */
 }
 .muncul {
   /* This section calls the slideInFromLeft animation we defined above */

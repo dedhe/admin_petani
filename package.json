@@ -1,7 +1,7 @@
 {
-  "name": "panelpoldaterkini",
+  "name": "paneladmin",
   "version": "1.0.0",
-  "description": "cpanel admin and user for polda terkini",
+  "description": "cpanel admin and user ",
   "author": "syaifullah",
   "private": true,
   "scripts": {

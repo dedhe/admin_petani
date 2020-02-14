@@ -27,7 +27,7 @@ top: -20px"
             <!-- <span class="angka">12</span> -->
             <div class="cc elevation-9" style="border-radius:20px;">
               <v-toolbar style="background : rgb(24, 39, 36)" >
-                <h1 class="dislpay-1" style="text-align:left; padding:10px; color:white">Member</h1>
+                <h1 class="dislpay-1" style="text-align:left; padding:10px; color:white">Branch</h1>
                 <v-spacer></v-spacer>
                 <v-toolbar-title>
                   <v-text-field
@@ -40,7 +40,7 @@ top: -20px"
                 </v-toolbar-title>
 
                 <v-btn color="blue-grey darken-2" dark class="mb-2" @click="dialog = true">
-                  <v-icon left dark>add</v-icon>Member
+                  <v-icon left dark>add</v-icon>Branch
                 </v-btn>
               </v-toolbar>
             </div>
@@ -55,21 +55,17 @@ top: -20px"
         >
           <template v-slot:items="props">
             <td>
-              <b>{{ props.item.branch.branchName }}</b>
+              <b>{{ props.item.branchName }}</b>
             </td>
             <td>
-            {{ props.item.name }}
+            {{ props.item.branchLocation }}
             </td>
              <td>
-            {{ props.item.phone}}
+            {{ props.item.idProv.name }}
             </td>
              <td>
-            {{ props.item.luasLahan }}
+            {{ props.item.idRegencies.name }}
             </td>
-             <td>
-            {{ props.item.produksi }}
-            </td>
-            
           
             <td class="text-xs-left">
             <v-icon small @click="editItem(props.item)">create</v-icon>
@@ -88,50 +84,47 @@ top: -20px"
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Tambah Member</span>
+          <span class="headline">Tambah Branch</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-                  <v-flex xs12>
-             <v-select
-                  :items="branch"
-                  item-text="branchName"
-                  items-value="_id"
-                  label="Pilih Branch"
-                  return-object
-                  v-model="createitem.branchCode"
-                  required
-                 
-                ></v-select>
-
-               
-              </v-flex>
-
               <v-flex xs12>
              <v-text-field
-                 v-model="createitem.name"
-                 label="Nama Member"
+                 v-model="createitem.branchName"
+                 label="Nama Branch"
       
-             ></v-text-field>
-               <v-text-field
-                 v-model="createitem.phone"
-                 label=" No HP"
-      
-             ></v-text-field>
-               <v-text-field
-                 v-model="createitem.luasLahan"
-                 label="Luas Lahan"
-                  type="number"
              ></v-text-field>
               </v-flex>
-           
-              
+               <v-flex xs12>
+             <v-select
+                  :items="prov"
+                  item-text="name"
+                  items-value="id"
+                  return-object
+                  label="Pilih Provinsi"
+                  v-model="createitem.idProv"
+                  required
+                  @change="getKokab(createitem.idProv.id)"
+                ></v-select>
+              </v-flex>
+
+                 <v-flex xs12>
+             <v-select
+                  :items="kab"
+                  item-text="name"
+                  items-value="id"
+                  return-object
+                  label="Pilih Kabupaten / Kota"
+                  v-model="createitem.idRegencies"
+                  required
+                ></v-select>
+              </v-flex>
                <v-flex xs12>
              <v-text-field
-                 v-model="createitem.produksi"
-                 label="Produksi"
-      type="number"
+                 v-model="createitem.branchLocation"
+                 label="Lokasi"
+      
              ></v-text-field>
               </v-flex>
                
@@ -155,53 +148,50 @@ top: -20px"
    <v-dialog v-model="edit" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Member</span>
+          <span class="headline">Edit Branch</span>
         </v-card-title>
         <v-card-text>
-        <v-container grid-list-md>
+         <v-container grid-list-md>
             <v-layout wrap>
-                  <v-flex xs12>
-             <v-select
-                  :items="branch"
-                  item-text="branchName"
-                  items-value="_id"
-                  label="Pilih Branch"
-                  return-object
-                  v-model="editedItem.branch"
-                  required
-                 
-                ></v-select>
-
-               
-              </v-flex>
-
               <v-flex xs12>
              <v-text-field
-                 v-model="editedItem.name"
-                 label="Nama Member"
+                 v-model="editedItem.branchName"
+                 label="Nama Branch"
       
-             ></v-text-field>
-               <v-text-field
-                 v-model="editedItem.phone"
-                 label=" No HP"
-      
-             ></v-text-field>
-               <v-text-field
-                 v-model="editedItem.luasLahan"
-                 label="Luas Lahan"
-                  type="number"
              ></v-text-field>
               </v-flex>
-           
-              
+               <v-flex xs12>
+             <v-select
+                  :items="prov"
+                  item-text="name"
+                  items-value="id"
+                  return-object
+                  label="Pilih Provinsi"
+                  v-model="editedItem.idProv"
+                  required
+                  @change="getKokab(editedItem.idProv.id)"
+                ></v-select>
+              </v-flex>
+
+                 <v-flex xs12>
+             <v-select
+                  :items="kab"
+                  item-text="name"
+                  items-value="id"
+                  return-object
+                  label="Pilih Kabupaten / Kota"
+                  v-model="editedItem.idRegencies"
+                  required
+                ></v-select>
+              </v-flex>
                <v-flex xs12>
              <v-text-field
-                 v-model="editedItem.produksi"
-                 label="Produksi"
-      type="number"
+                 v-model="editedItem.branchLocation"
+                 label="Lokasi"
+      
              ></v-text-field>
               </v-flex>
-               
+             
             </v-layout>
           </v-container>
         </v-card-text>
@@ -234,7 +224,7 @@ computed : {
         username : '',
         password :''
     }
-    this.getBranch()
+    this.getWilayah()
      },
      editedItem() {
         
@@ -265,21 +255,18 @@ computed : {
         value: "branchName"
       },
       {
-        text: "Nama Member",
-        value: "name"
+        text: "Lokasi",
+        value: "branchLocation"
       },
       {
-          text: "No HP",
-          value: "phone"
+          text: "Provinsi",
+          value: "idProv.nama"
       },
       {
-           text: "Luas Lahan",
-          value: "luasLahan"
-      },{
-        text: "Produksi",
-          value: "produksi"
-      }
-     ,
+           text: "Kab / Kota",
+          value: "idRegencies.nama"
+      },
+     
       { text: "Actions", value: "", sortable: false }
     ],
   editedItem: {
@@ -289,8 +276,7 @@ computed : {
      
     },
     kab : [],
-    prov : [],
-    branch: []
+    prov : []
    
   }),
 
@@ -315,19 +301,9 @@ computed : {
               this.kab = res.data
           })
       },
-
-      getBranch(){
- axios.get('/admin/branch/',{
-            headers: {
-                Authorization: `bearer ${this.token}`
-            }} )
-          .then((res) => {
-              this.branch = res.data
-          })
-      },
    
     init() {
-      axios.get("/admin/member",{
+      axios.get("/admin/branch",{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
@@ -344,9 +320,6 @@ computed : {
 
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
-       this.getBranch()
-         console.log(this.editedItem)
-         this.getKokab(this.editedItem.idProv.id)
       //this.dialog = true;
     },
 
@@ -365,7 +338,7 @@ computed : {
         cancelButtonText: "Tidak , Saya tidak yakin"
       });
       if (swal.value) {
-        let r = await axios.delete("/admin/member/" + item._id,{
+        let r = await axios.delete("/admin/branch/" + item._id,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
@@ -391,7 +364,7 @@ computed : {
 
     async save() {
       let data = this.createitem
-      let ress = await axios.post("/admin/member", data,{
+      let ress = await axios.post("/admin/branch", data,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
@@ -413,13 +386,15 @@ computed : {
 
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
-      this.getBranch()
       //this.dialog = true;
+       this.getWilayah()
+         console.log(this.editedItem)
+         this.getKokab(this.editedItem.idProv.id)
     },
     async edited() {
 
  
-      let ress = await axios.put("/admin/member/"+this.editedItem._id, this.editedItem,{
+      let ress = await axios.put("/admin/branch/"+this.editedItem._id, this.editedItem,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }

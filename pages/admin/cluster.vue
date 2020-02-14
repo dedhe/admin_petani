@@ -27,7 +27,7 @@ top: -20px"
             <!-- <span class="angka">12</span> -->
             <div class="cc elevation-9" style="border-radius:20px;">
               <v-toolbar style="background : rgb(24, 39, 36)" >
-                <h1 class="dislpay-1" style="text-align:left; padding:10px; color:white">Member</h1>
+                <h1 class="dislpay-1" style="text-align:left; padding:10px; color:white">Cluster</h1>
                 <v-spacer></v-spacer>
                 <v-toolbar-title>
                   <v-text-field
@@ -40,7 +40,7 @@ top: -20px"
                 </v-toolbar-title>
 
                 <v-btn color="blue-grey darken-2" dark class="mb-2" @click="dialog = true">
-                  <v-icon left dark>add</v-icon>Member
+                  <v-icon left dark>add</v-icon>Cluster
                 </v-btn>
               </v-toolbar>
             </div>
@@ -55,21 +55,11 @@ top: -20px"
         >
           <template v-slot:items="props">
             <td>
-              <b>{{ props.item.branch.branchName }}</b>
+              <b>{{ props.item.clusterName }}</b>
             </td>
             <td>
-            {{ props.item.name }}
+            {{ props.item.description }}
             </td>
-             <td>
-            {{ props.item.phone}}
-            </td>
-             <td>
-            {{ props.item.luasLahan }}
-            </td>
-             <td>
-            {{ props.item.produksi }}
-            </td>
-            
           
             <td class="text-xs-left">
             <v-icon small @click="editItem(props.item)">create</v-icon>
@@ -83,58 +73,35 @@ top: -20px"
       </v-flex>
     </v-layout>
 
-
-    <!-- tambah -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Tambah Member</span>
+          <span class="headline">Tambah Cluster</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-                  <v-flex xs12>
-             <v-select
-                  :items="branch"
-                  item-text="branchName"
-                  items-value="_id"
-                  label="Pilih Branch"
-                  return-object
-                  v-model="createitem.branchCode"
-                  required
-                 
-                ></v-select>
-
-               
-              </v-flex>
-
               <v-flex xs12>
              <v-text-field
-                 v-model="createitem.name"
-                 label="Nama Member"
+                 v-model="createitem.nama"
+                 label="Nama Cluster"
       
-             ></v-text-field>
-               <v-text-field
-                 v-model="createitem.phone"
-                 label=" No HP"
-      
-             ></v-text-field>
-               <v-text-field
-                 v-model="createitem.luasLahan"
-                 label="Luas Lahan"
-                  type="number"
              ></v-text-field>
               </v-flex>
-           
-              
-               <v-flex xs12>
-             <v-text-field
-                 v-model="createitem.produksi"
-                 label="Produksi"
-      type="number"
-             ></v-text-field>
+              <v-flex xs12>
+                <v-textarea
+                  name="name"
+                  label="Deskripsi"
+                  id="id"
+                  v-model="createitem.isi"
+                  type="area"
+                ></v-textarea>
               </v-flex>
                
+          
+              <!-- <v-chip v-for="i in createitem.akses" :key="i" color="green" text-color="white"><v-icon left>label</v-icon>{{i.nama}}</v-chip> -->
+
+              <!-- <p>{{createitem}}</p> -->
             </v-layout>
           </v-container>
         </v-card-text>
@@ -145,63 +112,30 @@ top: -20px"
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-
-
-
-
-        <!-- edit -->
-
    <v-dialog v-model="edit" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Member</span>
+          <span class="headline">Edit Cluster</span>
         </v-card-title>
         <v-card-text>
-        <v-container grid-list-md>
+          <v-container grid-list-md>
             <v-layout wrap>
-                  <v-flex xs12>
-             <v-select
-                  :items="branch"
-                  item-text="branchName"
-                  items-value="_id"
-                  label="Pilih Branch"
-                  return-object
-                  v-model="editedItem.branch"
-                  required
-                 
-                ></v-select>
-
-               
-              </v-flex>
-
+                  <v-text-field
+                 v-model="editedItem.clusterName"
+                 label="Nama Cluster"
+      
+             ></v-text-field>
               <v-flex xs12>
-             <v-text-field
-                 v-model="editedItem.name"
-                 label="Nama Member"
-      
-             ></v-text-field>
-               <v-text-field
-                 v-model="editedItem.phone"
-                 label=" No HP"
-      
-             ></v-text-field>
-               <v-text-field
-                 v-model="editedItem.luasLahan"
-                 label="Luas Lahan"
-                  type="number"
-             ></v-text-field>
+                <!-- <vue-editor v-model="editedItem.isi"></vue-editor> -->
+                   <v-textarea
+                  name="name"
+                  label="deskripsi"
+                  id="id"
+                  v-model="editedItem.description"
+                  type="area"
+                ></v-textarea>
               </v-flex>
-           
               
-               <v-flex xs12>
-             <v-text-field
-                 v-model="editedItem.produksi"
-                 label="Produksi"
-      type="number"
-             ></v-text-field>
-              </v-flex>
-               
             </v-layout>
           </v-container>
         </v-card-text>
@@ -234,12 +168,7 @@ computed : {
         username : '',
         password :''
     }
-    this.getBranch()
-     },
-     editedItem() {
-        
      }
-     
    },
   data: () => ({
     dialog: false,
@@ -261,25 +190,14 @@ computed : {
     
     headers: [
       {
-        text: "Nama Branch",
-        value: "branchName"
+        text: "Nama Cluster",
+        value: "clusterName"
       },
       {
-        text: "Nama Member",
-        value: "name"
+        text: "Deskripsi",
+        value: "description"
       },
-      {
-          text: "No HP",
-          value: "phone"
-      },
-      {
-           text: "Luas Lahan",
-          value: "luasLahan"
-      },{
-        text: "Produksi",
-          value: "produksi"
-      }
-     ,
+     
       { text: "Actions", value: "", sortable: false }
     ],
   editedItem: {
@@ -288,9 +206,6 @@ computed : {
       isi: "",
      
     },
-    kab : [],
-    prov : [],
-    branch: []
    
   }),
 
@@ -302,32 +217,9 @@ computed : {
   },
 
   methods: {
-
-      getWilayah() {
-          axios.get('/wilayah')
-          .then((res) => {
-              this.prov = res.data
-          })
-      },
-      getKokab(id){
-        axios.get('/wilayah/' + id )
-          .then((res) => {
-              this.kab = res.data
-          })
-      },
-
-      getBranch(){
- axios.get('/admin/branch/',{
-            headers: {
-                Authorization: `bearer ${this.token}`
-            }} )
-          .then((res) => {
-              this.branch = res.data
-          })
-      },
    
     init() {
-      axios.get("/admin/member",{
+      axios.get("/admin/cluster",{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
@@ -344,9 +236,6 @@ computed : {
 
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
-       this.getBranch()
-         console.log(this.editedItem)
-         this.getKokab(this.editedItem.idProv.id)
       //this.dialog = true;
     },
 
@@ -365,7 +254,7 @@ computed : {
         cancelButtonText: "Tidak , Saya tidak yakin"
       });
       if (swal.value) {
-        let r = await axios.delete("/admin/member/" + item._id,{
+        let r = await axios.delete("/admin/cluster/" + item._id,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
@@ -391,7 +280,7 @@ computed : {
 
     async save() {
       let data = this.createitem
-      let ress = await axios.post("/admin/member", data,{
+      let ress = await axios.post("/admin/cluster", data,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
@@ -413,13 +302,12 @@ computed : {
 
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
-      this.getBranch()
       //this.dialog = true;
     },
     async edited() {
 
  
-      let ress = await axios.put("/admin/member/"+this.editedItem._id, this.editedItem,{
+      let ress = await axios.put("/admin/cluster/"+this.editedItem._id, this.editedItem,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
