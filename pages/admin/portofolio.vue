@@ -326,11 +326,6 @@ editedIndex : -1 ,
         this.namafile = e.target.files[0].name;
         console.log(this.createitem.file);
       }
-      // else {
-      //   this.createitem.file = ''
-      //   this.editedItem.file = ''
-      //   this.namafile = ''
-      // }
     },
    async edited() {
        const fd = new FormData();
