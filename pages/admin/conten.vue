@@ -146,48 +146,31 @@ top: -20px"
    <v-dialog v-model="edit" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Branch</span>
+          <span class="headline">Edit Conten</span>
         </v-card-title>
         <v-card-text>
          <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-             <v-text-field
-                 v-model="editedItem.branchName"
-                 label="Nama Branch"
-      
-             ></v-text-field>
+           <p> {{editedItem.page}} /  {{editedItem.label}} </p>
               </v-flex>
-               <v-flex xs12>
-             <v-select
-                  :items="prov"
-                  item-text="name"
-                  items-value="id"
-                  return-object
-                  label="Pilih Provinsi"
-                  v-model="editedItem.idProv"
-                  required
-                  @change="getKokab(editedItem.idProv.id)"
-                ></v-select>
-              </v-flex>
+              
+            
+            
 
                  <v-flex xs12>
-             <v-select
-                  :items="kab"
-                  item-text="name"
-                  items-value="id"
-                  return-object
-                  label="Pilih Kabupaten / Kota"
-                  v-model="editedItem.idRegencies"
-                  required
-                ></v-select>
-              </v-flex>
-               <v-flex xs12>
-             <v-text-field
-                 v-model="editedItem.branchLocation"
-                 label="Lokasi"
+                <v-text-field
+                 v-model="editedItem.title"
+                 label="Title"
       
              ></v-text-field>
+              </v-flex>
+               <v-flex xs12>
+                  <v-textarea
+          name="input-7-1"
+          label="description"
+        v-model="editedItem.description"
+        ></v-textarea>
               </v-flex>
              
             </v-layout>
@@ -287,18 +270,18 @@ computed : {
 
   methods: {
 
-      getWilayah() {
-          axios.get('/wilayah')
-          .then((res) => {
-              this.prov = res.data
-          })
-      },
-      getKokab(id){
-        axios.get('/wilayah/' + id )
-          .then((res) => {
-              this.kab = res.data
-          })
-      },
+      // getWilayah() {
+      //     axios.get('/wilayah')
+      //     .then((res) => {
+      //         this.prov = res.data
+      //     })
+      // },
+      // getKokab(id){
+      //   axios.get('/wilayah/' + id )
+      //     .then((res) => {
+      //         this.kab = res.data
+      //     })
+      // },
    
     init() {
       axios.get("/admin/conten",{
@@ -383,16 +366,16 @@ computed : {
       this.editedIndex = this.users.indexOf(item);
 
       this.editedItem = Object.assign({}, item);
-      console.log(this.editedItem);
+     // console.log(this.editedItem);
       //this.dialog = true;
-       this.getWilayah()
-         console.log(this.editedItem)
-         this.getKokab(this.editedItem.idProv.id)
+     //  this.getWilayah()
+        // console.log(this.editedItem)
+        // this.getKokab(this.editedItem.idProv.id)
     },
     async edited() {
 
  
-      let ress = await axios.put("/admin/branch/"+this.editedItem._id, this.editedItem,{
+      let ress = await axios.put("/admin/conten/"+this.editedItem._id, this.editedItem,{
             headers: {
                 Authorization: `bearer ${this.token}`
             }
