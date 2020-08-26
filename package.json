@@ -15,7 +15,7 @@
     "axios": "^0.18.1",
     "cross-env": "^5.2.1",
     "moment": "^2.24.0",
-    "nuxt": "^2.11.0",
+    "nuxt": "^2.14.3",
     "vue-apexcharts": "^1.5.2",
     "vue-carousel": "^0.18.0",
     "vue-sweetalert2": "^1.6.4",
@@ -24,10 +24,10 @@
     "vuetify-loader": "^1.4.3"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4",
+    "nodemon": "^2.0.4",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vue": "^2.6.10",
-    "vue-server-renderer": "2.6.11"
+    "vue-server-renderer": "^2.6.12"
   }
 }

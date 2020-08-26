@@ -95,6 +95,21 @@ top: -20px"
                  label="Nama Branch"
       
              ></v-text-field>
+             <v-text-field
+                 v-model="createitem.branchEmail"
+                 label="Email"
+      
+             ></v-text-field>
+             <v-text-field
+                 v-model="createitem.branchPassword"
+                 label="Nama Branch"
+      
+             ></v-text-field>
+             <v-text-field
+                 v-model="createitem.branchHp"
+                 label="No HP"
+      
+             ></v-text-field>
               </v-flex>
                <v-flex xs12>
              <v-select
