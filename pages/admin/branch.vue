@@ -132,6 +132,18 @@ top: -20px"
                   return-object
                   label="Pilih Kabupaten / Kota"
                   v-model="createitem.idRegencies"
+                   @change="getKec(createitem.idRegencies.id)"
+                  required
+                ></v-select>
+              </v-flex>
+               <v-flex xs12>
+             <v-select
+                  :items="kec"
+                  item-text="name"
+                  items-value="id"
+                  return-object
+                  label="Pilih Kecamatan"
+                  v-model="createitem.idKec"
                   required
                 ></v-select>
               </v-flex>
@@ -195,6 +207,17 @@ top: -20px"
                   items-value="id"
                   return-object
                   label="Pilih Kabupaten / Kota"
+                  v-model="editedItem.idRegencies"
+                  required
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+             <v-select
+                  :items="kab"
+                  item-text="name"
+                  items-value="id"
+                  return-object
+                  label="Pilih Kecamatan"
                   v-model="editedItem.idRegencies"
                   required
                 ></v-select>
@@ -291,7 +314,8 @@ computed : {
      
     },
     kab : [],
-    prov : []
+    prov : [],
+    kec : []
    
   }),
 
@@ -305,15 +329,22 @@ computed : {
   methods: {
 
       getWilayah() {
-          axios.get('/wilayah')
+          axios.get('/wilayah/provinsi')
           .then((res) => {
               this.prov = res.data
           })
       },
       getKokab(id){
-        axios.get('/wilayah/' + id )
+        axios.get('/wilayah/provinsi/' + id )
           .then((res) => {
               this.kab = res.data
+              this.kec = []
+          })
+      },
+       getKec(id){
+        axios.get('/wilayah/kota/' + id )
+          .then((res) => {
+              this.kec = res.data
           })
       },
    
