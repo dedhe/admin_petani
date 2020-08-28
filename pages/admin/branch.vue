@@ -26,7 +26,7 @@ top: -20px"
           >
             <!-- <span class="angka">12</span> -->
             <div class="cc elevation-9" style="border-radius:20px;">
-              <v-toolbar style="background : rgb(24, 39, 36)" >
+              <v-toolbar style="background : rgb(24, 39, 36)">
                 <h1 class="dislpay-1" style="text-align:left; padding:10px; color:white">Branch</h1>
                 <v-spacer></v-spacer>
                 <v-toolbar-title>
@@ -55,20 +55,14 @@ top: -20px"
         >
           <template v-slot:items="props">
             <td>
-              <b>{{ props.item.branchName }}</b>
+              <b>{{ props.item.name }}</b>
             </td>
-            <td>
-            {{ props.item.branchLocation }}
-            </td>
-             <td>
-            {{ props.item.idProv.name }}
-            </td>
-             <td>
-            {{ props.item.idRegencies.name }}
-            </td>
-          
+            <td>{{ props.item.location }}</td>
+            <td>{{ props.item.provinsi.name }}</td>
+            <td>{{ props.item.kota.name }}</td>
+            <td>{{ props.item.kecamatan.name }}</td>
             <td class="text-xs-left">
-            <v-icon small @click="editItem(props.item)">create</v-icon>
+              <v-icon small @click="editItem(props.item)">create</v-icon>
               <v-icon small @click="deleteItem(props.item)">delete</v-icon>
             </td>
           </template>
@@ -78,7 +72,6 @@ top: -20px"
         </v-data-table>
       </v-flex>
     </v-layout>
-
 
     <!-- tambah -->
     <v-dialog v-model="dialog" persistent max-width="600px">
@@ -90,71 +83,59 @@ top: -20px"
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-             <v-text-field
-                 v-model="createitem.branchName"
-                 label="Nama Branch"
-      
-             ></v-text-field>
-             <v-text-field
-                 v-model="createitem.branchEmail"
-                 label="Email"
-      
-             ></v-text-field>
-             <v-text-field
-                 v-model="createitem.branchPassword"
-                 label="Nama Branch"
-      
-             ></v-text-field>
-             <v-text-field
-                 v-model="createitem.branchHp"
-                 label="No HP"
-      
-             ></v-text-field>
+                <v-text-field v-model="createitem.name" label="Nama Branch"></v-text-field>
+                <v-text-field v-model="createitem.email" label="Email"></v-text-field>
+
+                <v-text-field
+                  v-model="createitem.password"
+                  label="Password"
+                  :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                  :type="show1 ? 'text' : 'password'"
+                  hint="At least 8 characters"
+                  counter
+                  @click:append="show1 = !show1"
+                ></v-text-field>
+                <v-text-field v-model="createitem.hp" label="No HP"></v-text-field>
               </v-flex>
-               <v-flex xs12>
-             <v-select
+              <v-flex xs12>
+                <v-select
                   :items="prov"
                   item-text="name"
                   items-value="id"
                   return-object
                   label="Pilih Provinsi"
-                  v-model="createitem.idProv"
+                  v-model="createitem.provinsi"
                   required
-                  @change="getKokab(createitem.idProv.id)"
+                  @change="getKokab(createitem.provinsi.id)"
                 ></v-select>
               </v-flex>
 
-                 <v-flex xs12>
-             <v-select
+              <v-flex xs12>
+                <v-select
                   :items="kab"
                   item-text="name"
                   items-value="id"
                   return-object
                   label="Pilih Kabupaten / Kota"
-                  v-model="createitem.idRegencies"
-                   @change="getKec(createitem.idRegencies.id)"
+                  v-model="createitem.kota"
+                  @change="getKec(createitem.kota.id)"
                   required
                 ></v-select>
               </v-flex>
-               <v-flex xs12>
-             <v-select
+              <v-flex xs12>
+                <v-select
                   :items="kec"
                   item-text="name"
                   items-value="id"
                   return-object
                   label="Pilih Kecamatan"
-                  v-model="createitem.idKec"
+                  v-model="createitem.kecamatan"
                   required
                 ></v-select>
               </v-flex>
-               <v-flex xs12>
-             <v-text-field
-                 v-model="createitem.branchLocation"
-                 label="Lokasi"
-      
-             ></v-text-field>
+              <v-flex xs12>
+                <v-text-field v-model="createitem.location" label="Lokasi"></v-text-field>
               </v-flex>
-               
             </v-layout>
           </v-container>
         </v-card-text>
@@ -166,70 +147,58 @@ top: -20px"
       </v-card>
     </v-dialog>
 
+    <!-- edit -->
 
-
-
-
-        <!-- edit -->
-
-   <v-dialog v-model="edit" persistent max-width="600px">
+    <v-dialog v-model="edit" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="headline">Edit Branch</span>
         </v-card-title>
         <v-card-text>
-         <v-container grid-list-md>
+          <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-             <v-text-field
-                 v-model="editedItem.branchName"
-                 label="Nama Branch"
-      
-             ></v-text-field>
+                <v-text-field v-model="editedItem.name" label="Nama Branch"></v-text-field>
               </v-flex>
-               <v-flex xs12>
-             <v-select
+              <v-flex xs12>
+                <v-select
                   :items="prov"
                   item-text="name"
                   items-value="id"
                   return-object
                   label="Pilih Provinsi"
-                  v-model="editedItem.idProv"
+                  v-model="editedItem.provinsi"
                   required
-                  @change="getKokab(editedItem.idProv.id)"
+                  @change="getKokab(editedItem.provinsi.id)"
                 ></v-select>
               </v-flex>
 
-                 <v-flex xs12>
-             <v-select
+              <v-flex xs12>
+                <v-select
                   :items="kab"
                   item-text="name"
                   items-value="id"
                   return-object
                   label="Pilih Kabupaten / Kota"
-                  v-model="editedItem.idRegencies"
+                  v-model="editedItem.kota"
+                   @change="getKec(editedItem.kota.id)"
                   required
                 ></v-select>
               </v-flex>
               <v-flex xs12>
-             <v-select
-                  :items="kab"
+                <v-select
+                  :items="kec"
                   item-text="name"
                   items-value="id"
                   return-object
                   label="Pilih Kecamatan"
-                  v-model="editedItem.idRegencies"
+                  v-model="editedItem.kecamatan"
                   required
                 ></v-select>
               </v-flex>
-               <v-flex xs12>
-             <v-text-field
-                 v-model="editedItem.branchLocation"
-                 label="Lokasi"
-      
-             ></v-text-field>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.location" label="Lokasi"></v-text-field>
               </v-flex>
-             
             </v-layout>
           </v-container>
         </v-card-text>
@@ -247,118 +216,103 @@ import axios from "~/plugins/axios";
 import { mapGetters, mapActions } from "vuex";
 export default {
   layout: "admin",
-  middleware : 'cekAdmin',
-computed : {
-     ...mapGetters({
-       token : "getToken",
-       user : "getUser"
-     })
-   },
+  middleware: "cekAdmin",
+  computed: {
+    ...mapGetters({
+      token: "getToken",
+      user: "getUser",
+    }),
+  },
 
-   watch : {
-     dialog() {
-       this.createitem =  {
-        nama : '',
-        username : '',
-        password :''
-    }
-    this.getWilayah()
-     },
-     editedItem() {
-        
-     }
-     
-   },
+  watch: {
+    dialog() {
+      this.createitem = {
+        nama: "",
+        username: "",
+        password: "",
+      };
+      this.getWilayah();
+    },
+    editedItem() {},
+  },
   data: () => ({
     dialog: false,
-    edit : false,
-    users : [],
-    
+    edit: false,
+    users: [],
+    show1: false,
     search: "",
-    createitem: {
-        nama : '',
-        username : '',
-        password :''
-    },
+    createitem: {},
 
     defaultItem: {
-        nama : '',
-        username : '',
-        password :''
+      nama: "",
+      username: "",
+      password: "",
     },
-    
+
     headers: [
       {
         text: "Nama Branch",
-        value: "branchName"
+        value: "name",
       },
       {
         text: "Lokasi",
-        value: "branchLocation"
+        value: "location",
       },
       {
-          text: "Provinsi",
-          value: "idProv.nama"
+        text: "Provinsi",
+        value: "provinsi.name",
       },
       {
-           text: "Kab / Kota",
-          value: "idRegencies.nama"
+        text: "Kab / Kota",
+        value: "kota.name",
       },
-     
-      { text: "Actions", value: "", sortable: false }
+      {
+        text: "Kecamatan",
+        value: "kecamatan.name",
+      },
+
+      { text: "Actions", value: "", sortable: false },
     ],
-  editedItem: {
-      judul: "",
-      file: "",
-      isi: "",
-     
-    },
-    kab : [],
-    prov : [],
-    kec : []
-   
+    editedItem: {},
+    kab: [],
+    prov: [],
+    kec: [],
   }),
 
-  
-
-  
   created() {
     this.init();
   },
 
   methods: {
-
-      getWilayah() {
-          axios.get('/wilayah/provinsi')
-          .then((res) => {
-              this.prov = res.data
-          })
-      },
-      getKokab(id){
-        axios.get('/wilayah/provinsi/' + id )
-          .then((res) => {
-              this.kab = res.data
-              this.kec = []
-          })
-      },
-       getKec(id){
-        axios.get('/wilayah/kota/' + id )
-          .then((res) => {
-              this.kec = res.data
-          })
-      },
-   
-    init() {
-      axios.get("/admin/branch",{
-            headers: {
-                Authorization: `bearer ${this.token}`
-            }
-
-        }).then(ress => {
-        let data = ress.data;
-        console.log(data);
-        this.users = data;
+    getWilayah() {
+      axios.get("/wilayah/provinsi").then((res) => {
+        this.prov = res.data;
       });
+    },
+    getKokab(id) {
+      axios.get("/wilayah/provinsi/" + id).then((res) => {
+        this.kab = res.data;
+        this.kec = [];
+      });
+    },
+    getKec(id) {
+      axios.get("/wilayah/kota/" + id).then((res) => {
+        this.kec = res.data;
+      });
+    },
+
+    init() {
+      axios
+        .get("/admin/branch", {
+          headers: {
+            Authorization: `bearer ${this.token}`,
+          },
+        })
+        .then((ress) => {
+          let data = ress.data;
+          console.log(data);
+          this.users = data;
+        });
     },
     editItem(item) {
       this.edit = true;
@@ -381,14 +335,13 @@ computed : {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus Saja!",
-        cancelButtonText: "Tidak , Saya tidak yakin"
+        cancelButtonText: "Tidak , Saya tidak yakin",
       });
       if (swal.value) {
-        let r = await axios.delete("/admin/branch/" + item._id,{
-            headers: {
-                Authorization: `bearer ${this.token}`
-            }
-
+        let r = await axios.delete("/admin/branch/" + item._id, {
+          headers: {
+            Authorization: `bearer ${this.token}`,
+          },
         });
         if (r.data.success) {
           this.users.splice(index, 1);
@@ -401,7 +354,7 @@ computed : {
 
     close() {
       this.dialog = false;
-    
+
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -409,13 +362,12 @@ computed : {
     },
 
     async save() {
-      let data = this.createitem
-      let ress = await axios.post("/admin/branch", data,{
-            headers: {
-                Authorization: `bearer ${this.token}`
-            }
-
-        });
+      let data = this.createitem;
+      let ress = await axios.post("/admin/branch", data, {
+        headers: {
+          Authorization: `bearer ${this.token}`,
+        },
+      });
       if (ress.data.success) {
         this.$swal.fire("Bagus!", ress.data.message, "success");
       } else {
@@ -426,26 +378,28 @@ computed : {
       this.init();
       this.close();
     },
-      editItem(item) {
+    editItem(item) {
       this.edit = true;
       this.editedIndex = this.users.indexOf(item);
 
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
       //this.dialog = true;
-       this.getWilayah()
-         console.log(this.editedItem)
-         this.getKokab(this.editedItem.idProv.id)
+      this.getWilayah();
+      console.log(this.editedItem);
+      this.getKokab(this.editedItem.provinsi.id);
+      this.getKec(this.editedItem.kota.id);
     },
     async edited() {
-
- 
-      let ress = await axios.put("/admin/branch/"+this.editedItem._id, this.editedItem,{
-            headers: {
-                Authorization: `bearer ${this.token}`
-            }
-
-        });
+      let ress = await axios.put(
+        "/admin/branch/" + this.editedItem._id,
+        this.editedItem,
+        {
+          headers: {
+            Authorization: `bearer ${this.token}`,
+          },
+        }
+      );
       if (ress.data.success) {
         this.$swal.fire("Bagus!", ress.data.message, "success");
       } else {
@@ -454,10 +408,9 @@ computed : {
 
       console.log(ress.data);
       this.init();
-     this.edit = false
+      this.edit = false;
     },
-    
-  }
+  },
 };
 </script>
 
