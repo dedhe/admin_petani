@@ -95,7 +95,7 @@ export default {
       { title: "Dashboard", icon: "dashboard", path: "/admin" },
       { title: "Cluster", icon: "sort", path: "/admin/cluster" },
       { title: "Branch", icon: "timeline", path: "/admin/branch" },
-      { title: "Member", icon: "account_box", path: "/admin/member" },
+      // { title: "Member", icon: "account_box", path: "/admin/member" },
       // { title: "Layanan", icon: "call", path: "/admin/layanan" },
       { title: "Conten", icon: "subscriptions", path: "/admin/conten" },
       // { title: "Laporan", icon: "feedback", path: "/admin/laporan" },
