@@ -2,29 +2,17 @@
   <v-container grid-list-xs>
     <v-layout row wrap>
       <v-flex md12 class>
-        <!-- <v-toolbar flat dark class="blue">
-          <v-toolbar-title class="display-1">Laporan Masuk</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-           
-          </v-toolbar-items>
-        </v-toolbar>-->
         <div style="position:relative; width:100%; text-align:center ;">
           <div
             class="blue-grey darken-1"
             style="    position: absolute;
-  
-   
     max-width:90%;
     margin: 0 auto;
     border-radius:20px;
-    
-
 left: 0;
 right: 0;
 top: -20px"
           >
-            <!-- <span class="angka">12</span> -->
             <div class="cc elevation-9" style="border-radius:20px;">
               <v-toolbar style="background : rgb(24, 39, 36)">
                 <h1 class="dislpay-1" style="text-align:left; padding:10px; color:white">Branch</h1>
@@ -57,6 +45,9 @@ top: -20px"
             <td>
               <b>{{ props.item.name }}</b>
             </td>
+            <td>
+              <b>{{ props.item.email }}</b>
+            </td>
             <td>{{ props.item.location }}</td>
             <td>{{ props.item.provinsi.name }}</td>
             <td>{{ props.item.kota.name }}</td>
@@ -66,9 +57,7 @@ top: -20px"
               <v-icon small @click="deleteItem(props.item)">delete</v-icon>
             </td>
           </template>
-          <template v-slot:no-data>
-            <!-- <v-btn color="primary" @click="initialize">Reset</v-btn> -->
-          </template>
+          <template v-slot:no-data></template>
         </v-data-table>
       </v-flex>
     </v-layout>
@@ -181,7 +170,7 @@ top: -20px"
                   return-object
                   label="Pilih Kabupaten / Kota"
                   v-model="editedItem.kota"
-                   @change="getKec(editedItem.kota.id)"
+                  @change="getKec(editedItem.kota.id)"
                   required
                 ></v-select>
               </v-flex>
@@ -254,6 +243,10 @@ export default {
         text: "Nama Branch",
         value: "name",
       },
+         {
+        text: "Email",
+        value: "email",
+      },
       {
         text: "Lokasi",
         value: "location",
@@ -317,10 +310,8 @@ export default {
     editItem(item) {
       this.edit = true;
       this.editedIndex = this.users.indexOf(item);
-
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
-      //this.dialog = true;
     },
 
     async deleteItem(items) {
@@ -416,10 +407,7 @@ export default {
 
 <style scoped>
 .cc {
-  /* max-width: 85px;
-  max-height: 85px; */
   width: 100%;
-  /* line-height: 60px; */
   padding: 15px !important;
 }
 </style>
